@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
-import 'refer_detail_screen.dart';
+import 'refer_detail_submitted.dart';
 
 class ReferPatientScreen extends StatefulWidget {
   @override
@@ -297,7 +297,7 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
         ),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (ctx) => ReferDetailScreen(),
+            builder: (ctx) => ReferDetailSubmitted(),
           ));
         },
         child: Text(

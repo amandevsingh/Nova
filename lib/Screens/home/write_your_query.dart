@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_dropdown.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
-class GeneralQueryScreen extends StatefulWidget {
-  GeneralQueryScreen({Key key}) : super(key: key);
+class WriteYourQuery extends StatefulWidget {
+  WriteYourQuery({Key key}) : super(key: key);
 
   @override
-  _GeneralQueryScreenState createState() => _GeneralQueryScreenState();
+  _WriteYourQueryState createState() => _WriteYourQueryState();
 }
 
-class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
+class _WriteYourQueryState extends State<WriteYourQuery> {
+  FocusNode _nameNode = FocusNode();
+  FocusNode _numberNode = FocusNode();
   FocusNode _optionNode = FocusNode();
   FocusNode _detailNode = FocusNode();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _numberController = TextEditingController();
   TextEditingController _optionController = TextEditingController();
   TextEditingController _detailController = TextEditingController();
 
   @override
   void dispose() {
+    _nameNode.dispose();
+    _numberNode.dispose();
     _optionNode.dispose();
     _detailNode.dispose();
+    _nameController.dispose();
+    _numberController.dispose();
     _optionController.dispose();
     _detailController.dispose();
     super.dispose();
@@ -29,9 +36,6 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.light,
-    ));
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -121,6 +125,22 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
+                          txtTitle: "Patient Name*",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black),
+                        ),
+                        nameField(),
+                        CustomText(
+                          txtTitle: "Mobile No.",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black),
+                        ),
+                        numberField(),
+                        CustomText(
                           txtTitle: "Select an Option*",
                           style: Theme.of(context)
                               .textTheme
@@ -170,8 +190,9 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                 FocusScope.of(context).requestFocus(FocusNode());
               },
               decoration: custInputDecoration(
-                  context: context,
-                  hintText: "Unable to view details of a patient"),
+                hintText: "Unable to view details of a patient",
+                context: context,
+              ),
             ),
           ),
           CustomDropDown(
@@ -185,6 +206,64 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                 "4",
               ].map((e) => CustomDropDownItems(e, e)).toList()),
         ],
+      ),
+    );
+  }
+
+  Widget nameField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: SizedBox(
+        height: 45.0,
+        child: TextFormField(
+          cursorColor: custThemeColor,
+          cursorHeight: 22.0,
+          focusNode: _nameNode,
+          controller: _nameController,
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (val) {
+            FocusScope.of(context).requestFocus(_numberNode);
+          },
+          decoration: custInputDecoration(
+              hintText: "Akansha Rawat",
+              context: context,
+              suffix: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Image.asset(
+                  ImgName.name,
+                ),
+              )),
+        ),
+      ),
+    );
+  }
+
+  Widget numberField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: SizedBox(
+        height: 45.0,
+        child: TextFormField(
+          cursorColor: custThemeColor,
+          cursorHeight: 22.0,
+          focusNode: _numberNode,
+          controller: _numberController,
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (val) {
+            FocusScope.of(context).requestFocus(_optionNode);
+          },
+          decoration: custInputDecoration(
+              hintText: "9023636589",
+              context: context,
+              suffix: Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: Image.asset(
+                  ImgName.phone,
+                ),
+              )),
+        ),
       ),
     );
   }

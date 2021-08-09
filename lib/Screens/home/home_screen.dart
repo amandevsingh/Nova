@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_auth/Screens/home/add_referal_screen.dart';
@@ -6,9 +7,19 @@ import 'package:flutter_auth/Screens/home/general_query.dart';
 import 'package:flutter_auth/Screens/home/notification_screen.dart';
 import 'package:flutter_auth/Screens/home/patient_detail.dart';
 import 'package:flutter_auth/Screens/home/patient_listing.dart';
+import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/cust_image.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
+
+enum DrawerItem {
+  Whats_New_From_Nova,
+  Notification,
+  All_Query,
+  Settings,
+  Terms_Condition,
+  LogOut
+}
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -19,7 +30,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _searchController = TextEditingController();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
+  List<String> iconList = [
+    ImgName.whatNew,
+    ImgName.notification,
+    ImgName.allQuery,
+    ImgName.setting,
+    ImgName.termNCondition,
+    ImgName.logOut
+  ];
   @override
   void dispose() {
     _searchController.dispose();
@@ -32,6 +52,99 @@ class _HomeScreenState extends State<HomeScreen> {
       statusBarBrightness: Brightness.light,
     ));
     return Scaffold(
+      key: _key,
+      drawerEnableOpenDragGesture: false,
+      drawer: Drawer(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Column(
+            children: [
+              Container(
+                height: 125.0,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Color(0xFF821541), Color(0xFF7E135C)],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter)),
+                child: Center(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 20.0,
+                      backgroundColor: Color(0xFFC52068),
+                      child: Image.asset(
+                        ImgName.patient,
+                        color: Colors.white,
+                        height: 15.0,
+                        width: 15.0,
+                      ),
+                    ),
+                    title: CustomText(
+                      txtTitle: "Dr. Manju Singh",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1
+                          .copyWith(color: Colors.white),
+                    ),
+                    subtitle: CustomText(
+                      txtTitle: "Gurgaon, Haryana",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: Colors.white),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20.0,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ),
+              //tiles...
+              Expanded(
+                child: Container(
+                    color: Color(0xFFE5D0DE),
+                    child: ListView.separated(
+                        itemBuilder: (context, i) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      iconList[i],
+                                      height: 20.0,
+                                      width: 20.0,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 20.0),
+                                      child: CustomText(
+                                        txtTitle:
+                                            describeEnum(DrawerItem.values[i])
+                                                .replaceAll("_", " ")
+                                                .toUpperCase(),
+                                        onPressed: () {},
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            .copyWith(color: Color(0xFFC52068)),
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                        separatorBuilder: (context, i) => Divider(
+                              color: Color(0xFFE1C7D3),
+                            ),
+                        itemCount: DrawerItem.values.length)),
+              )
+            ],
+          ),
+        ),
+      ),
       floatingActionButton: InkWell(
         onTap: () {
           Navigator.of(context).push(
@@ -84,10 +197,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 left: 8.0, right: 15.0, top: 20.0),
                             child: Row(
                               children: [
-                                Image.asset(
-                                  ImgName.drawer,
-                                  width: 16.0,
-                                  height: 14.0,
+                                IconButton(
+                                  onPressed: () {
+                                    _key.currentState.openDrawer();
+                                  },
+                                  icon: Image.asset(
+                                    ImgName.drawer,
+                                    width: 16.0,
+                                    height: 14.0,
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
@@ -159,6 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 cursorHeight: 22.0,
                                 controller: _searchController,
                                 decoration: searchFieldInputDecoration(
+                                    context: context,
                                     hintText:
                                         "Patient Name or number".toUpperCase()),
                               ),
@@ -341,61 +460,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  InputDecoration searchFieldInputDecoration({@required String hintText}) {
-    return InputDecoration(
-        contentPadding: EdgeInsets.only(left: 20.0),
-        filled: true,
-        fillColor: Color(0xFFFFFFFF).withOpacity(0.32),
-        suffixIcon: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Image.asset(
-            ImgName.search,
-            height: 16.0,
-            width: 16.0,
-          ),
-        ),
-        hintText: hintText,
-        hintStyle: Theme.of(context)
-            .textTheme
-            .caption
-            .copyWith(color: Colors.white.withOpacity(0.32)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ));
   }
 }

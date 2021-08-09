@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/cust_image.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
@@ -84,6 +85,7 @@ class _WhatsNewFromNovaState extends State<WhatsNewFromNova> {
                                   cursorColor: Colors.white,
                                   cursorHeight: 22.0,
                                   decoration: searchFieldInputDecoration(
+                                      context: context,
                                       hintText: "Search Article".toUpperCase()),
                                   onChanged: (_) {
                                     if (mounted) setState(() {});
@@ -264,61 +266,5 @@ class _WhatsNewFromNovaState extends State<WhatsNewFromNova> {
         selectedBorderColor: Color(0xFF61948E),
         currentPageNotifier: _currentPageNotifier,
         itemCount: 3);
-  }
-
-  InputDecoration searchFieldInputDecoration({@required String hintText}) {
-    return InputDecoration(
-        contentPadding: EdgeInsets.only(left: 20.0),
-        filled: true,
-        fillColor: Color(0xFFFFFFFF).withOpacity(0.32),
-        suffixIcon: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Image.asset(
-            ImgName.search,
-            height: 16.0,
-            width: 16.0,
-          ),
-        ),
-        hintText: hintText,
-        hintStyle: Theme.of(context)
-            .textTheme
-            .caption
-            .copyWith(color: Colors.white.withOpacity(0.32)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ));
   }
 }

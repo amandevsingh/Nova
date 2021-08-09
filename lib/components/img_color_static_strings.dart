@@ -28,6 +28,20 @@ class ImgName {
   static const String inActive = imgURL + "in_active.png";
   static const String file = imgURL + "file.png";
   static const String req = imgURL + "req.png";
+  static const String name = imgURL + "name.png";
+  static const String phone = imgURL + "phone.png";
+  static const String logOut = imgURL + "logout.png";
+  static const String setting = imgURL + "setting.png";
+  static const String notification = imgURL + "notification.png";
+  static const String termNCondition = imgURL + "terms_condition.png";
+  static const String whatNew = imgURL + "what_new.png";
+  static const String allQuery = imgURL + "all_query.png";
+  static const String filter = imgURL + "filter.png";
+  static const String email = imgURL + "email.png";
+  static const String mail = imgURL + "mail.png";
+  static const String cal = imgURL + "cal.png";
+  static const String congo = imgURL + "congo.png";
+  static const String thankyou = imgURL + "thankyou.png";
 }
 
 class FontStyle {

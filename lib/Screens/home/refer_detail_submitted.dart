@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
-class ReferDetailScreen extends StatelessWidget {
+class ReferDetailSubmitted extends StatelessWidget {
+  final bool isQuerySubmitted;
+  ReferDetailSubmitted({this.isQuerySubmitted = false});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,11 +15,6 @@ class ReferDetailScreen extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  // Container(
-                  //   height: 265.0,
-                  //   width: double.infinity,
-                  //   child: Image.asset(ImgName.union, fit: BoxFit.cover),
-                  // ),
                   Image.asset(ImgName.unionAbove, fit: BoxFit.cover),
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),
@@ -70,10 +67,11 @@ class ReferDetailScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: CustomText(
-                        txtTitle:
-                            "Thanks for sharing the details. The Referral ID is B1234.",
+                        txtTitle: isQuerySubmitted
+                            ? "Your query has been submitted. Please note this query ID for future reference - NOVA123"
+                            : "Thanks for sharing the details. The Referral ID is B1234.",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500),
                         align: TextAlign.center,
@@ -83,10 +81,11 @@ class ReferDetailScreen extends StatelessWidget {
                       height: 10,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: CustomText(
-                        txtTitle:
-                            "We will keep you updated on the patient's status and interaction with Nova.",
+                        txtTitle: isQuerySubmitted
+                            ? "We will get back to you with the\ndetails shortly."
+                            : "We will keep you updated on the patient's status and interaction with Nova.",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                         align: TextAlign.center,

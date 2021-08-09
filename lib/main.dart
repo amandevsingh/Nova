@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/home/perscription_requested.dart';
-import 'package:flutter_auth/Screens/home/whats_new_from_nova_detail.dart';
 import 'package:flutter_auth/components/constants.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 import 'package:flutter_auth/components/text_style_decoration.dart';
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           unselectedWidgetColor: custThemeColor,
           textTheme: TextStyleDecoration.lightTheme),
-      home: WhatsNewNovaDetail(),
+      home: PerscriptionRequested(),
     );
   }
 }

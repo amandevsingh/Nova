@@ -71,7 +71,7 @@ class _PatientDetailState extends State<PatientDetail> {
                             Navigator.of(context).pop();
                           },
                         ),
-                        //notification label...
+                        //back label...
                         CustomText(
                           txtTitle: "Back",
                           style: Theme.of(context).textTheme.headline1.copyWith(
