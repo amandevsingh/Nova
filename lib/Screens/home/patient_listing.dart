@@ -10,7 +10,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 enum ListType { Active, In_Active }
 
 class PatientListing extends StatefulWidget {
-  PatientListing({Key key}) : super(key: key);
+ 
 
   @override
   _PatientListingState createState() => _PatientListingState();
@@ -233,7 +233,7 @@ class _PatientListingState extends State<PatientListing> {
             children: [
               CustomText(
                 txtTitle: describeEnum(listType).replaceAll("_", " "),
-                style: Theme.of(context).textTheme.caption.copyWith(
+                style: Theme.of(context).textTheme.caption?.copyWith(
                     color: selectListType == listType
                         ? Colors.white
                         : Color(0xFF777777)),
@@ -302,7 +302,7 @@ class _PatientListingState extends State<PatientListing> {
                         style: Theme.of(context)
                             .textTheme
                             .caption
-                            .copyWith(color: Colors.black),
+                            ?.copyWith(color: Colors.black),
                       ),
                       Row(
                         children: [
@@ -311,7 +311,7 @@ class _PatientListingState extends State<PatientListing> {
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
-                                .copyWith(color: Colors.black),
+                                ?.copyWith(color: Colors.black),
                           ),
                           SizedBox(
                             width: 25.0,
@@ -322,7 +322,7 @@ class _PatientListingState extends State<PatientListing> {
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
-                                .copyWith(color: Colors.black),
+                                ?.copyWith(color: Colors.black),
                           )
                         ],
                       ),
@@ -334,21 +334,24 @@ class _PatientListingState extends State<PatientListing> {
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
-                                .copyWith(color: Colors.black),
+                                ?.copyWith(color: Colors.black),
                           ),
                           SizedBox(
                             width: 20.0,
                           ),
                           CustomText(
-                            txtTitle: patientDetailModel.latestStatus ?? "",
-                            style: Theme.of(context).textTheme.caption.copyWith(
-                                color: patientDetailModel.latestStatus ==
-                                        "Completed"
-                                    ? Colors.green
-                                    : patientDetailModel.latestStatus ==
-                                            "Stopped"
-                                        ? Colors.red
-                                        : custThemeColor),
+                            txtTitle: patientDetailModel.latestStatus,
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                ?.copyWith(
+                                    color: patientDetailModel.latestStatus ==
+                                            "Completed"
+                                        ? Colors.green
+                                        : patientDetailModel.latestStatus ==
+                                                "Stopped"
+                                            ? Colors.red
+                                            : custThemeColor),
                           )
                         ],
                       ),
@@ -431,7 +434,7 @@ class _PatientListingState extends State<PatientListing> {
                   style: Theme.of(context)
                       .textTheme
                       .caption
-                      .copyWith(color: Colors.black),
+                      ?.copyWith(color: Colors.black),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -443,7 +446,7 @@ class _PatientListingState extends State<PatientListing> {
                         style: Theme.of(context)
                             .textTheme
                             .caption
-                            .copyWith(color: Colors.black),
+                            ?.copyWith(color: Colors.black),
                       ),
                       SizedBox(
                         width: 25.0,
@@ -454,7 +457,7 @@ class _PatientListingState extends State<PatientListing> {
                         style: Theme.of(context)
                             .textTheme
                             .caption
-                            .copyWith(color: Colors.black),
+                            ?.copyWith(color: Colors.black),
                       )
                     ],
                   ),

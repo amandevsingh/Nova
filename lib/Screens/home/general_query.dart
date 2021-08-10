@@ -6,8 +6,6 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class GeneralQueryScreen extends StatefulWidget {
-  GeneralQueryScreen({Key key}) : super(key: key);
-
   @override
   _GeneralQueryScreenState createState() => _GeneralQueryScreenState();
 }
@@ -74,7 +72,7 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1
-                                .copyWith(
+                                ?.copyWith(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.white),
                           ),
@@ -125,7 +123,7 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
-                              .copyWith(color: Colors.black),
+                              ?.copyWith(color: Colors.black),
                         ),
                         selectOptionField(),
                         Padding(
@@ -136,7 +134,7 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
-                                .copyWith(color: Colors.black),
+                                ?.copyWith(color: Colors.black),
                           ),
                         ),
                         detailField(),
@@ -211,25 +209,8 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
 
   Widget buildSubmitButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: "Submit",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        child: commonButton(
+            context: context, btnLabel: "Submit", onPressed: () {}));
   }
 }

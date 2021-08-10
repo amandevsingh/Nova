@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/home/home_screen.dart';
+import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,44 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(passwordNode);
             },
-            decoration: InputDecoration(
-                hintText: "Email or Mobile",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: custThemeColor.withOpacity(0.6),
-                  ),
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                )),
+            decoration: custInputDecoration(
+                hintText: "Email or Mobile", context: context),
           ),
           SizedBox(
             height: 18,
@@ -87,66 +52,32 @@ class _LoginScreenState extends State<LoginScreen> {
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(FocusNode());
             },
-            decoration: InputDecoration(
-                suffixIcon: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: obSecureText
-                        ? Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Image.asset(
-                              ImgName.openEye,
-                              height: 20,
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Image.asset(
-                              ImgName.closeEye,
-                              height: 20,
-                            ),
+            decoration: custInputDecoration(
+              hintText: "Password",
+              context: context,
+              suffix: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: obSecureText
+                      ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.asset(
+                            ImgName.openEye,
+                            height: 20,
                           ),
-                    onTap: () {
-                      setState(() {
-                        obSecureText = !obSecureText;
-                      });
-                    }),
-                hintText: "Password",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: custThemeColor.withOpacity(0.6),
-                  ),
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                )),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.asset(
+                            ImgName.closeEye,
+                            height: 20,
+                          ),
+                        ),
+                  onTap: () {
+                    setState(() {
+                      obSecureText = !obSecureText;
+                    });
+                  }),
+            ),
           ),
           Align(
             alignment: Alignment.centerRight,
@@ -167,26 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildLoginButton() {
-    return Container(
-      height: 55,
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(
-            custThemeColor,
-          ),
-        ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (ctx) => HomeScreen(),
-            ),
-          );
-        },
-        child: Text(
-          "SIGN IN",
-        ),
-      ),
-    );
+    return commonButton(
+        context: context, btnLabel: "SIGN IN", onPressed: () {});
   }
 }

@@ -8,10 +8,10 @@ String homeDetailModelToJson(HomeDetailModel data) =>
 
 class HomeDetailModel {
   HomeDetailModel({
-    this.imgUrl,
-    this.title,
-    this.description,
-    this.date,
+    this.imgUrl = "",
+    this.title = "",
+    this.description = "",
+    this.date = "",
   });
 
   String imgUrl;

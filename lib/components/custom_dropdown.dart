@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class CustomDropDown extends StatefulWidget {
-  final ValueSetter<String> callback;
+  final ValueSetter<String>? callback;
   final List<CustomDropDownItems> items;
   final double height;
   final double width;
@@ -10,10 +10,10 @@ class CustomDropDown extends StatefulWidget {
   final String hintText;
 
   CustomDropDown(
-      {this.items,
-      this.height,
-      this.width,
-      this.value,
+      {this.items = const [],
+      this.height = 0.0,
+      this.width = 0.0,
+      this.value = "",
       this.hintText = "",
       this.callback});
 
@@ -40,9 +40,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
                       style: Theme.of(context)
                           .textTheme
                           .headline1
-                          .copyWith(fontWeight: FontWeight.w400)),
+                          ?.copyWith(fontWeight: FontWeight.w400)),
                   onPressed: () {
-                    widget.callback(widget.items[index].value);
+                    widget.callback!(widget.items[index].value);
                     Navigator.pop(context);
                   },
                 );
@@ -70,11 +70,11 @@ class _CustomDropDownState extends State<CustomDropDown> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Text(
-                  widget.value ?? widget.hintText,
+                  widget.value,
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      .copyWith(fontWeight: FontWeight.w400),
+                      ?.copyWith(fontWeight: FontWeight.w400),
                 ),
               ),
               flex: 1,

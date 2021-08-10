@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class OTPScreen extends StatefulWidget {
-  OTPScreen({Key key}) : super(key: key);
-
   @override
   _OTPScreenState createState() => _OTPScreenState();
 }
@@ -58,7 +57,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .headline1
-                            .copyWith(color: Colors.black),
+                            ?.copyWith(color: Colors.black),
                       ),
                     )
                   ],
@@ -71,7 +70,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       style: Theme.of(context)
                           .textTheme
                           .headline1
-                          .copyWith(color: Colors.black),
+                          ?.copyWith(color: Colors.black),
                     ),
                   ),
                 ),
@@ -84,7 +83,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   ),
                 ),
                 Padding(
@@ -105,7 +104,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  .copyWith(
+                                  ?.copyWith(
                                       color: _oneController.text.isNotEmpty
                                           ? Colors.white
                                           : custThemeColor),
@@ -136,7 +135,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  .copyWith(
+                                  ?.copyWith(
                                       color: _twoController.text.isNotEmpty
                                           ? Colors.white
                                           : custThemeColor),
@@ -175,7 +174,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  .copyWith(
+                                  ?.copyWith(
                                       color: _threeController.text.isNotEmpty
                                           ? Colors.white
                                           : custThemeColor),
@@ -206,7 +205,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  .copyWith(
+                                  ?.copyWith(
                                       color: _fourController.text.isNotEmpty
                                           ? Colors.white
                                           : custThemeColor),
@@ -228,7 +227,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Color(0xFFC1C3C4), fontSize: 13.0),
+                          ?.copyWith(color: Color(0xFFC1C3C4), fontSize: 13.0),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
@@ -237,7 +236,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
-                            .copyWith(fontSize: 13.0),
+                            ?.copyWith(fontSize: 13.0),
                       ),
                     )
                   ],
@@ -256,30 +255,15 @@ class _OTPScreenState extends State<OTPScreen> {
 
   Widget continueButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-      child: Container(
-        height: 55,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: "Continue".toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+        child: commonButton(
+            context: context,
+            btnLabel: "Continue".toUpperCase(),
+            onPressed: () {}));
   }
 
   InputDecoration custInputDecoration(
-      {@required String hintText, @required Color fillColor}) {
+      {required String hintText, required Color fillColor}) {
     return InputDecoration(
         fillColor: fillColor,
         filled: true,

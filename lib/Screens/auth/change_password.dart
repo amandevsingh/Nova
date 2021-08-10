@@ -4,8 +4,6 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class ChangePassword extends StatefulWidget {
-  ChangePassword({Key key}) : super(key: key);
-
   @override
   _ChangePasswordState createState() => _ChangePasswordState();
 }
@@ -64,7 +62,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           style: Theme.of(context)
                               .textTheme
                               .headline1
-                              .copyWith(color: Colors.black),
+                              ?.copyWith(color: Colors.black),
                         ),
                       )
                     ],
@@ -78,7 +76,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   style: Theme.of(context)
                       .textTheme
                       .headline1
-                      .copyWith(color: Colors.black),
+                      ?.copyWith(color: Colors.black),
                 ),
               ),
               Padding(
@@ -89,7 +87,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      .copyWith(color: Colors.black),
+                      ?.copyWith(color: Colors.black),
                 ),
               ),
               Padding(
@@ -140,25 +138,10 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   Widget buildChangeButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 30.0),
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: "Change".toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 30.0),
+        child: commonButton(
+            context: context,
+            btnLabel: "Change".toUpperCase(),
+            onPressed: () {}));
   }
 }

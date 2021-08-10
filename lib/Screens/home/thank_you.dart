@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
@@ -80,25 +81,12 @@ class ThankYou extends StatelessWidget {
 
   Widget buildChangeButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: isCongo ? "Go To dashboard" : "Close".toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+        child: commonButton(
+            context: context,
+            btnLabel: isCongo
+                ? "Go To dashboard".toUpperCase()
+                : "Close".toUpperCase(),
+            onPressed: () {}));
   }
 }

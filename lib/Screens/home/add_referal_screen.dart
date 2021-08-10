@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 import 'refer_detail_submitted.dart';
@@ -16,7 +17,6 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     List.generate(100, (index) => ageList.add((index + 1).toString()));
@@ -67,7 +67,7 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
                             );
                           }).toList(),
                           onChanged: (selectedAge) {
-                            age = selectedAge;
+                            age = selectedAge.toString();
                           },
                           style: TextStyle(fontSize: 13, color: Colors.black),
                           iconEnabledColor: Colors.white,
@@ -112,7 +112,7 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
                             );
                           }).toList(),
                           onChanged: (selectedCity) {
-                            city = selectedCity;
+                            city = selectedCity.toString();
                           },
                           style: TextStyle(fontSize: 13, color: Colors.black),
                           iconEnabledColor: Colors.white,
@@ -188,11 +188,11 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
   }
 
   Widget titleAndField({
-    @required String title,
-    @required String hintText,
-    Widget child,
+    required String title,
+    required String hintText,
+    Widget? child,
     int minLines = 1,
-    IconData iconData,
+    IconData? iconData,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,7 +220,7 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
                     FocusScope.of(context).requestFocus(FocusNode());
                   },
                   decoration: commonInputDecoration(
-                      hintText: hintText, iconData: iconData),
+                      hintText: hintText, iconData: iconData!),
                 ),
               ),
         SizedBox(
@@ -231,7 +231,9 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
   }
 
   InputDecoration commonInputDecoration(
-      {String hintText, bool showPostfixIcon = true, IconData iconData}) {
+      {required String hintText,
+      bool showPostfixIcon = true,
+      IconData? iconData}) {
     return InputDecoration(
         suffixIcon: showPostfixIcon
             ? GestureDetector(
@@ -286,24 +288,9 @@ class _ReferPatientScreenState extends State<ReferPatientScreen> {
   }
 
   Widget buildSubmitRefferalNovaButton() {
-    return Container(
-      height: 55,
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(
-            custThemeColor,
-          ),
-        ),
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (ctx) => ReferDetailSubmitted(),
-          ));
-        },
-        child: Text(
-          "Submit Referral to Nova",
-        ),
-      ),
-    );
+    return commonButton(
+        context: context,
+        btnLabel: "Submit Referral to Nova",
+        onPressed: () {});
   }
 }

@@ -10,9 +10,9 @@ String taskListModelToJson(TaskListModel data) => json.encode(data.toJson());
 
 class TaskListModel {
   TaskListModel({
-    this.title,
-    this.description,
-    this.isExpand,
+    this.title = "",
+    this.description = "",
+    this.isExpand = false,
   });
 
   String title;

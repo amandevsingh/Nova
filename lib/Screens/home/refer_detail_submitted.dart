@@ -29,8 +29,12 @@ class ReferDetailSubmitted extends StatelessWidget {
                         ),
                         CustomText(
                           txtTitle: "Back",
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                              fontWeight: FontWeight.w400, color: Colors.white),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
                         ),
                         Spacer(),
                       ],

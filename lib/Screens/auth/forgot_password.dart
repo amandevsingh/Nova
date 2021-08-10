@@ -4,8 +4,6 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class ForgotPassword extends StatefulWidget {
-  ForgotPassword({Key key}) : super(key: key);
-
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
 }
@@ -54,7 +52,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     style: Theme.of(context)
                         .textTheme
                         .headline1
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   ),
                 )
               ],
@@ -68,7 +66,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 style: Theme.of(context)
                     .textTheme
                     .headline1
-                    .copyWith(color: Colors.black),
+                    ?.copyWith(color: Colors.black),
               ),
             ),
           ),
@@ -115,27 +113,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   Widget buildContinueButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-
-              
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: "Continue".toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+        child: commonButton(
+            context: context,
+            btnLabel: "Continue".toUpperCase(),
+            onPressed: () {}));
   }
 }

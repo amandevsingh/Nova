@@ -4,7 +4,7 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class QueryList extends StatefulWidget {
-  QueryList({Key key}) : super(key: key);
+
 
   @override
   _QueryListState createState() => _QueryListState();
@@ -72,13 +72,13 @@ class _QueryListState extends State<QueryList> {
                   //notification label...
                   CustomText(
                     txtTitle: "All Query",
-                    style: Theme.of(context).textTheme.headline1.copyWith(
+                    style: Theme.of(context).textTheme.headline1?.copyWith(
                         fontWeight: FontWeight.w500, color: Colors.white),
                   ),
                   Spacer(),
                   CustomText(
                     txtTitle: "Filter",
-                    style: Theme.of(context).textTheme.headline1.copyWith(
+                    style: Theme.of(context).textTheme.headline1?.copyWith(
                         fontWeight: FontWeight.w500, color: Colors.white),
                   ),
                   IconButton(
@@ -133,7 +133,7 @@ class _QueryListState extends State<QueryList> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   ),
                   Spacer(),
                   IconButton(
@@ -157,7 +157,7 @@ class _QueryListState extends State<QueryList> {
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   ),
                   Spacer(),
                   CustomText(
@@ -165,7 +165,7 @@ class _QueryListState extends State<QueryList> {
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        .copyWith(color: Colors.green),
+                        ?.copyWith(color: Colors.green),
                   )
                 ],
               ),
@@ -176,7 +176,7 @@ class _QueryListState extends State<QueryList> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      .copyWith(color: Colors.black),
+                      ?.copyWith(color: Colors.black),
                 ),
               ),
               Padding(
@@ -188,7 +188,7 @@ class _QueryListState extends State<QueryList> {
                   style: Theme.of(context)
                       .textTheme
                       .caption
-                      .copyWith(color: Color(0xFF74787A)),
+                      ?.copyWith(color: Color(0xFF74787A)),
                 ),
               ),
               queryModel.isExpand
@@ -223,7 +223,7 @@ class _QueryListState extends State<QueryList> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    .copyWith(color: Colors.black),
+                                    ?.copyWith(color: Colors.black),
                               ),
                             ),
                             Padding(
@@ -235,7 +235,7 @@ class _QueryListState extends State<QueryList> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    .copyWith(color: Color(0xFF74787A)),
+                                    ?.copyWith(color: Color(0xFF74787A)),
                               ),
                             ),
                           ],

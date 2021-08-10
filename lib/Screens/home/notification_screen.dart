@@ -4,8 +4,6 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class NotificationScreen extends StatefulWidget {
-  NotificationScreen({Key key}) : super(key: key);
-
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
 }
@@ -45,7 +43,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   //notification label...
                   CustomText(
                     txtTitle: "Notification",
-                    style: Theme.of(context).textTheme.headline1.copyWith(
+                    style: Theme.of(context).textTheme.headline1?.copyWith(
                         fontWeight: FontWeight.w500, color: Colors.white),
                   )
                 ],
@@ -90,7 +88,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      .copyWith(color: Color(0xFFC52068), fontSize: 12.0),
+                      ?.copyWith(color: Color(0xFFC52068), fontSize: 12.0),
                 ),
               ),
               CustomText(

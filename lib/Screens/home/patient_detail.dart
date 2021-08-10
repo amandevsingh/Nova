@@ -6,20 +6,19 @@ import 'package:flutter_auth/Models/task_list_model.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
+import '../../components/common.dart';
 
 enum ExpandType { Expand_All, Collapse_All }
 enum SelectDocumentType { Prescription_Document, All_Reports }
 
 class PatientDetail extends StatefulWidget {
-  PatientDetail({Key key}) : super(key: key);
-
   @override
   _PatientDetailState createState() => _PatientDetailState();
 }
 
 class _PatientDetailState extends State<PatientDetail> {
   ExpandType selectExpandType = ExpandType.Collapse_All;
-  SelectDocumentType selectDocumentType;
+  SelectDocumentType selectDocumentType = SelectDocumentType.All_Reports;
   List<TaskListModel> taskList = [
     TaskListModel(
         title: "Patient Consent Received",
@@ -74,8 +73,12 @@ class _PatientDetailState extends State<PatientDetail> {
                         //back label...
                         CustomText(
                           txtTitle: "Back",
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                              fontWeight: FontWeight.w400, color: Colors.white),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
                         ),
                         Spacer(),
                         Image.asset(
@@ -139,7 +142,7 @@ class _PatientDetailState extends State<PatientDetail> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2
-                    .copyWith(color: Colors.black),
+                    ?.copyWith(color: Colors.black),
               ),
               Row(
                 children: [
@@ -148,7 +151,7 @@ class _PatientDetailState extends State<PatientDetail> {
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   ),
                   Spacer(),
                   CustomText(
@@ -156,7 +159,7 @@ class _PatientDetailState extends State<PatientDetail> {
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   )
                 ],
               ),
@@ -167,7 +170,7 @@ class _PatientDetailState extends State<PatientDetail> {
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   ),
                   Spacer(),
                   CustomText(
@@ -175,7 +178,7 @@ class _PatientDetailState extends State<PatientDetail> {
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        .copyWith(color: Colors.black),
+                        ?.copyWith(color: Colors.black),
                   )
                 ],
               ),
@@ -184,7 +187,7 @@ class _PatientDetailState extends State<PatientDetail> {
                 style: Theme.of(context)
                     .textTheme
                     .caption
-                    .copyWith(color: Colors.black),
+                    ?.copyWith(color: Colors.black),
               )
             ],
           ),
@@ -236,14 +239,14 @@ class _PatientDetailState extends State<PatientDetail> {
                       style: Theme.of(context)
                           .textTheme
                           .caption
-                          .copyWith(fontSize: 11.0, color: Colors.white),
+                          ?.copyWith(fontSize: 11.0, color: Colors.white),
                     ),
                     CustomText(
                       txtTitle: "Treatment Cycle: FET Self",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Colors.white),
+                          ?.copyWith(color: Colors.white),
                     )
                   ],
                 ),
@@ -275,7 +278,7 @@ class _PatientDetailState extends State<PatientDetail> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(color: Color(0xFF74787A), fontSize: 10.0),
+                    ?.copyWith(color: Color(0xFF74787A), fontSize: 10.0),
               ),
             ),
           ),
@@ -293,138 +296,104 @@ class _PatientDetailState extends State<PatientDetail> {
   Widget requestMoreDocumentButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {
-              return showModalBottomSheet(
-                  context: context,
-                  builder: (context) => Material(
-                        child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            height: MediaQuery.of(context).size.height * 0.50,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(74.0),
-                                    topRight: Radius.circular(74.0))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20.0),
-                                    child: CustomText(
-                                      txtTitle:
-                                          "Request Document".toUpperCase(),
-                                      style:
-                                          Theme.of(context).textTheme.headline2,
-                                    ),
-                                  ),
-                                  Divider(color: custThemeColor),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20.0),
-                                    child: CustomText(
-                                      txtTitle: "Please select document type",
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          activeColor: custThemeColor,
-                                          value: selectDocumentType ==
-                                              SelectDocumentType
-                                                  .Prescription_Document,
-                                          onChanged: (_) {
-                                            if (mounted)
-                                              setState(() {
-                                                selectDocumentType =
-                                                    SelectDocumentType
-                                                        .Prescription_Document;
-                                              });
-                                          }),
-                                      CustomText(
-                                        txtTitle: "Prescription Document",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .copyWith(color: Colors.black),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          activeColor: custThemeColor,
-                                          value: selectDocumentType ==
-                                              SelectDocumentType.All_Reports,
-                                          onChanged: (_) {
-                                            if (mounted)
-                                              setState(() {
-                                                selectDocumentType =
-                                                    SelectDocumentType
-                                                        .All_Reports;
-                                              });
-                                          }),
-                                      CustomText(
-                                        txtTitle: "All Reports",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .copyWith(color: Colors.black),
-                                      )
-                                    ],
-                                  ),
-                                  submitButton()
-                                ],
-                              ),
-                            )),
-                      ));
-            },
-            child: CustomText(
-              txtTitle: "Request More Documents",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white),
-            )),
+      child: commonButton(
+        context: context,
+        btnLabel: "Request More Documents",
+        onPressed: () {
+          return modalBottomSheet();
+        },
       ),
     );
   }
 
+  void modalBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => Material(
+              child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  height: MediaQuery.of(context).size.height * 0.50,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(74.0),
+                          topRight: Radius.circular(74.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: CustomText(
+                            txtTitle: "Request Document".toUpperCase(),
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                        ),
+                        Divider(color: custThemeColor),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: CustomText(
+                            txtTitle: "Please select document type",
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Checkbox(
+                                activeColor: custThemeColor,
+                                value: selectDocumentType ==
+                                    SelectDocumentType.Prescription_Document,
+                                onChanged: (_) {
+                                  if (mounted)
+                                    setState(() {
+                                      selectDocumentType = SelectDocumentType
+                                          .Prescription_Document;
+                                    });
+                                }),
+                            CustomText(
+                              txtTitle: "Prescription Document",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(color: Colors.black),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Checkbox(
+                                activeColor: custThemeColor,
+                                value: selectDocumentType ==
+                                    SelectDocumentType.All_Reports,
+                                onChanged: (_) {
+                                  if (mounted)
+                                    setState(() {
+                                      selectDocumentType =
+                                          SelectDocumentType.All_Reports;
+                                    });
+                                }),
+                            CustomText(
+                              txtTitle: "All Reports",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(color: Colors.black),
+                            )
+                          ],
+                        ),
+                        submitButton()
+                      ],
+                    ),
+                  )),
+            ));
+  }
+
   Widget submitButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Container(
-        height: 40,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: "Submit",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: commonButton(
+            context: context, btnLabel: "Submit", onPressed: () {}));
   }
 
   Widget expandCollapseButton(ExpandType expandType) {
@@ -450,7 +419,7 @@ class _PatientDetailState extends State<PatientDetail> {
         child: Center(
           child: CustomText(
             txtTitle: describeEnum(expandType).replaceAll("_", " "),
-            style: Theme.of(context).textTheme.caption.copyWith(
+            style: Theme.of(context).textTheme.caption?.copyWith(
                 color: selectExpandType == expandType
                     ? Colors.white
                     : custThemeColor),

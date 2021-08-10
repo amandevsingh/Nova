@@ -12,14 +12,14 @@ String patientDetailModelToJson(PatientDetailModel data) =>
 
 class PatientDetailModel {
   PatientDetailModel({
-    this.name,
-    this.age,
-    this.gender,
-    this.phone,
-    this.referredOn,
-    this.latestDate,
-    this.latestStatus,
-    this.status,
+    this.name = "",
+    this.age = "",
+    this.gender = "",
+    this.phone = "",
+    this.referredOn = "",
+    this.latestDate = "",
+    this.latestStatus = "",
+    this.status = "",
   });
 
   String name;

@@ -8,8 +8,6 @@ import 'package:flutter_auth/components/img_color_static_strings.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
 class WhatsNewFromNova extends StatefulWidget {
-  WhatsNewFromNova({Key key}) : super(key: key);
-
   @override
   _WhatsNewFromNovaState createState() => _WhatsNewFromNovaState();
 }
@@ -69,7 +67,7 @@ class _WhatsNewFromNovaState extends State<WhatsNewFromNova> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline1
-                                      .copyWith(color: Colors.white),
+                                      ?.copyWith(color: Colors.white),
                                 ),
                               ),
                             ],
@@ -188,7 +186,7 @@ class _WhatsNewFromNovaState extends State<WhatsNewFromNova> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(fontWeight: FontWeight.w600, fontSize: 10.0),
+                        ?.copyWith(fontWeight: FontWeight.w600, fontSize: 10.0),
                   ),
                   CustomText(
                     txtTitle:
@@ -196,7 +194,7 @@ class _WhatsNewFromNovaState extends State<WhatsNewFromNova> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(fontSize: 10.0),
+                        ?.copyWith(fontSize: 10.0),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
@@ -205,7 +203,7 @@ class _WhatsNewFromNovaState extends State<WhatsNewFromNova> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Color(0xFF8D8D8D), fontSize: 10.0),
+                          ?.copyWith(color: Color(0xFF8D8D8D), fontSize: 10.0),
                     ),
                   ),
                   Container(
@@ -245,7 +243,8 @@ class _WhatsNewFromNovaState extends State<WhatsNewFromNova> {
           child: CustomText(
             txtTitle:
                 "Infertility is a medical condition that is time-sensitive. Don’t put your fertility journey on hold until the “right time” comes, because when infertility is involved, the right time to act is now.",
-            style: Theme.of(context).textTheme.caption.copyWith(fontSize: 10.0),
+            style:
+                Theme.of(context).textTheme.caption?.copyWith(fontSize: 10.0),
             maxLine: 2,
             textOverflow: TextOverflow.ellipsis,
           ),

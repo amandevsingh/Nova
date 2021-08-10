@@ -4,7 +4,7 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class WhatsNewNovaDetail extends StatefulWidget {
-  WhatsNewNovaDetail({Key key}) : super(key: key);
+ 
 
   @override
   _WhatsNewNovaDetailState createState() => _WhatsNewNovaDetailState();
@@ -36,7 +36,7 @@ class _WhatsNewNovaDetailState extends State<WhatsNewNovaDetail> {
                   //back label...
                   CustomText(
                     txtTitle: "Back",
-                    style: Theme.of(context).textTheme.headline1.copyWith(
+                    style: Theme.of(context).textTheme.headline1?.copyWith(
                         fontWeight: FontWeight.w400, color: Colors.white),
                   ),
                 ],
@@ -74,7 +74,7 @@ class _WhatsNewNovaDetailState extends State<WhatsNewNovaDetail> {
                           style: Theme.of(context)
                               .textTheme
                               .caption
-                              .copyWith(color: Color(0xFF8D8D8D)),
+                              ?.copyWith(color: Color(0xFF8D8D8D)),
                         ),
                       ),
                       Padding(

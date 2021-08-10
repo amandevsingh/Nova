@@ -1,12 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/auth/terms_privacy_screen.dart';
+import 'package:flutter_auth/components/common.dart';
 
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class SignupScreen extends StatefulWidget {
-  SignupScreen({Key key}) : super(key: key);
-
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }
@@ -62,7 +61,8 @@ class _SignupScreenState extends State<SignupScreen> {
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(ageNode);
             },
-            decoration: custInputDecoration(hintText: "Full Name"),
+            decoration:
+                custInputDecoration(hintText: "Full Name", context: context),
           ),
           SizedBox(
             height: 18,
@@ -82,11 +82,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       );
                     }).toList(),
                     onChanged: (selectedAge) {
-                      age = selectedAge;
+                      age = selectedAge.toString();
                     },
                     style: TextStyle(fontSize: 13, color: Colors.black),
                     iconEnabledColor: Colors.white,
-                    decoration: custInputDecoration(hintText: "Age"),
+                    decoration:
+                        custInputDecoration(hintText: "Age", context: context),
                     value: age,
                     isExpanded: false,
                     icon: Icon(
@@ -116,11 +117,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       );
                     }).toList(),
                     onChanged: (selectedGender) {
-                      gender = selectedGender;
+                      gender = selectedGender.toString();
                     },
                     style: TextStyle(fontSize: 13, color: Colors.black),
                     iconEnabledColor: Colors.white,
-                    decoration: custInputDecoration(hintText: "Gender"),
+                    decoration: custInputDecoration(
+                        hintText: "Gender", context: context),
                     value: gender,
                     isExpanded: false,
                     // isDense: false,
@@ -148,7 +150,8 @@ class _SignupScreenState extends State<SignupScreen> {
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(emailNode);
             },
-            decoration: custInputDecoration(hintText: "+91 | Mobile Number"),
+            decoration: custInputDecoration(
+                hintText: "+91 | Mobile Number", context: context),
           ),
           SizedBox(
             height: 18,
@@ -161,7 +164,8 @@ class _SignupScreenState extends State<SignupScreen> {
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(cityNode);
             },
-            decoration: custInputDecoration(hintText: "Email"),
+            decoration:
+                custInputDecoration(hintText: "Email", context: context),
           ),
           SizedBox(
             height: 18,
@@ -178,11 +182,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 );
               }).toList(),
               onChanged: (selectedCity) {
-                city = selectedCity;
+                city = selectedCity.toString();
               },
               style: TextStyle(fontSize: 13, color: Colors.black),
               iconEnabledColor: Colors.white,
-              decoration: custInputDecoration(hintText: "Gender"),
+              decoration:
+                  custInputDecoration(hintText: "Gender", context: context),
               value: city,
               isExpanded: true,
               isDense: false,
@@ -207,7 +212,8 @@ class _SignupScreenState extends State<SignupScreen> {
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(confirmPasswordNode);
             },
-            decoration: custInputDecoration(hintText: "Password"),
+            decoration:
+                custInputDecoration(hintText: "Password", context: context),
           ),
           SizedBox(
             height: 18,
@@ -220,7 +226,8 @@ class _SignupScreenState extends State<SignupScreen> {
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(FocusNode());
             },
-            decoration: custInputDecoration(hintText: "Confirm Password"),
+            decoration: custInputDecoration(
+                hintText: "Confirm Password", context: context),
           ),
           SizedBox(
             height: 18,
@@ -287,47 +294,6 @@ class _SignupScreenState extends State<SignupScreen> {
         ],
       ),
     );
-  }
-
-  InputDecoration custInputDecoration({@required String hintText}) {
-    return InputDecoration(
-        hintText: hintText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: custThemeColor.withOpacity(0.6),
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: Colors.grey,
-          ),
-        ));
   }
 
   Widget buildSignUpButton() {

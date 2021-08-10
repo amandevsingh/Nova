@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class PerscriptionRequested extends StatefulWidget {
-  PerscriptionRequested({Key key}) : super(key: key);
-
   @override
   _PerscriptionRequestedState createState() => _PerscriptionRequestedState();
 }
@@ -36,7 +35,7 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
                     //back label...
                     CustomText(
                       txtTitle: "Back",
-                      style: Theme.of(context).textTheme.headline1.copyWith(
+                      style: Theme.of(context).textTheme.headline1?.copyWith(
                           fontWeight: FontWeight.w400, color: Colors.white),
                     ),
                   ],
@@ -92,7 +91,7 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
-                      .copyWith(fontWeight: FontWeight.w300),
+                      ?.copyWith(fontWeight: FontWeight.w300),
                 ),
                 Spacer(),
                 closeButton()
@@ -106,25 +105,8 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
 
   Widget closeButton() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Container(
-        height: 40,
-        width: 215.0,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: "Close",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
+        child: commonButton(
+            context: context, btnLabel: "Close", onPressed: () {}));
   }
 }

@@ -10,14 +10,14 @@ String queryModelToJson(QueryModel data) => json.encode(data.toJson());
 
 class QueryModel {
   QueryModel({
-    this.name,
-    this.date,
-    this.title,
-    this.description,
-    this.status,
-    this.isExpand,
-    this.resoultionDate,
-    this.resolutionDescription,
+    this.name = "",
+    this.date = "",
+    this.title = "",
+    this.description = "",
+    this.status = "",
+    this.isExpand = false,
+    this.resoultionDate = "",
+    this.resolutionDescription = "",
   });
 
   String name;

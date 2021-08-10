@@ -22,8 +22,6 @@ enum DrawerItem {
 }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -54,97 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _key,
       drawerEnableOpenDragGesture: false,
-      drawer: Drawer(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: Column(
-            children: [
-              Container(
-                height: 125.0,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Color(0xFF821541), Color(0xFF7E135C)],
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter)),
-                child: Center(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 20.0,
-                      backgroundColor: Color(0xFFC52068),
-                      child: Image.asset(
-                        ImgName.patient,
-                        color: Colors.white,
-                        height: 15.0,
-                        width: 15.0,
-                      ),
-                    ),
-                    title: CustomText(
-                      txtTitle: "Dr. Manju Singh",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline1
-                          .copyWith(color: Colors.white),
-                    ),
-                    subtitle: CustomText(
-                      txtTitle: "Gurgaon, Haryana",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: Colors.white),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                        size: 20.0,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-              ),
-              //tiles...
-              Expanded(
-                child: Container(
-                    color: Color(0xFFE5D0DE),
-                    child: ListView.separated(
-                        itemBuilder: (context, i) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      iconList[i],
-                                      height: 20.0,
-                                      width: 20.0,
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 20.0),
-                                      child: CustomText(
-                                        txtTitle:
-                                            describeEnum(DrawerItem.values[i])
-                                                .replaceAll("_", " ")
-                                                .toUpperCase(),
-                                        onPressed: () {},
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            .copyWith(color: Color(0xFFC52068)),
-                                      ),
-                                    )
-                                  ]),
-                            ),
-                        separatorBuilder: (context, i) => Divider(
-                              color: Color(0xFFE1C7D3),
-                            ),
-                        itemCount: DrawerItem.values.length)),
-              )
-            ],
-          ),
-        ),
-      ),
+      drawer: Drawer(child: drawerPart()),
       floatingActionButton: InkWell(
         onTap: () {
           Navigator.of(context).push(
@@ -199,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    _key.currentState.openDrawer();
+                                    _key.currentState?.openDrawer();
                                   },
                                   icon: Image.asset(
                                     ImgName.drawer,
@@ -230,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .overline
-                                          .copyWith(color: Colors.white),
+                                          ?.copyWith(color: Colors.white),
                                     ),
                                     badgeColor: Color(0xFF80144A),
                                     position: BadgePosition.topEnd(
@@ -254,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  .copyWith(color: Colors.white),
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
                           Padding(
@@ -264,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Theme.of(context)
                                   .textTheme
                                   .headline1
-                                  .copyWith(color: Colors.white),
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
                           //search field...
@@ -387,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(fontWeight: FontWeight.w600, fontSize: 10.0),
+                        ?.copyWith(fontWeight: FontWeight.w600, fontSize: 10.0),
                   ),
                   CustomText(
                     txtTitle:
@@ -395,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(fontSize: 10.0),
+                        ?.copyWith(fontSize: 10.0),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
@@ -404,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Color(0xFF8D8D8D), fontSize: 10.0),
+                          ?.copyWith(color: Color(0xFF8D8D8D), fontSize: 10.0),
                     ),
                   ),
                   Container(
@@ -421,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget commonPart(String imgName, String text, Function onPress) {
+  Widget commonPart(String imgName, String text, void Function() onPress) {
     return InkWell(
       onTap: onPress,
       child: Container(
@@ -458,6 +366,95 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget drawerPart() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: Column(
+        children: [
+          Container(
+            height: 125.0,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xFF821541), Color(0xFF7E135C)],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter)),
+            child: Center(
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 20.0,
+                  backgroundColor: Color(0xFFC52068),
+                  child: Image.asset(
+                    ImgName.patient,
+                    color: Colors.white,
+                    height: 15.0,
+                    width: 15.0,
+                  ),
+                ),
+                title: CustomText(
+                  txtTitle: "Dr. Manju Singh",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      ?.copyWith(color: Colors.white),
+                ),
+                subtitle: CustomText(
+                  txtTitle: "Gurgaon, Haryana",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(color: Colors.white),
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+          ),
+          //tiles...
+          Expanded(
+            child: Container(
+                color: Color(0xFFE5D0DE),
+                child: ListView.separated(
+                    itemBuilder: (context, i) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  iconList[i],
+                                  height: 20.0,
+                                  width: 20.0,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0),
+                                  child: CustomText(
+                                    txtTitle: describeEnum(DrawerItem.values[i])
+                                        .replaceAll("_", " ")
+                                        .toUpperCase(),
+                                    onPressed: () {},
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(color: Color(0xFFC52068)),
+                                  ),
+                                )
+                              ]),
+                        ),
+                    separatorBuilder: (context, i) => Divider(
+                          color: Color(0xFFE1C7D3),
+                        ),
+                    itemCount: DrawerItem.values.length)),
+          )
+        ],
       ),
     );
   }

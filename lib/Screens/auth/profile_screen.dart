@@ -4,7 +4,7 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key key}) : super(key: key);
+ 
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -89,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline1
-                                    .copyWith(color: Colors.white),
+                                    ?.copyWith(color: Colors.white),
                               ),
                             )
                           ],
@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .headline1
-                            .copyWith(color: Colors.white),
+                            ?.copyWith(color: Colors.white),
                       ),
                     ),
                     Padding(
@@ -145,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(color: Colors.black),
+                                    ?.copyWith(color: Colors.black),
                               ),
                               nameField(),
                               Row(
@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(color: Colors.black),
+                                    ?.copyWith(color: Colors.black),
                               ),
                               mobileField(),
                               CustomText(
@@ -164,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(color: Colors.black),
+                                    ?.copyWith(color: Colors.black),
                               ),
                               emailField(),
                               Row(
@@ -222,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: Theme.of(context)
               .textTheme
               .bodyText1
-              .copyWith(color: Colors.black),
+              ?.copyWith(color: Colors.black),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -262,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: Theme.of(context)
               .textTheme
               .bodyText1
-              .copyWith(color: Colors.black),
+              ?.copyWith(color: Colors.black),
         ),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -350,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: Theme.of(context)
               .textTheme
               .bodyText1
-              .copyWith(color: Colors.black),
+              ?.copyWith(color: Colors.black),
         ),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -384,7 +384,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: Theme.of(context)
               .textTheme
               .bodyText1
-              .copyWith(color: Colors.black),
+              ?.copyWith(color: Colors.black),
         ),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -411,25 +411,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildSaveButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                custThemeColor,
-              ),
-            ),
-            onPressed: () {},
-            child: CustomText(
-              txtTitle: "Save",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.white),
-            )),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        child:
+            commonButton(context: context, btnLabel: "Save", onPressed: () {}));
   }
 }

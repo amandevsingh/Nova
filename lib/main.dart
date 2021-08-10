@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/home/perscription_requested.dart';
 import 'package:flutter_auth/components/constants.dart';
-import 'package:flutter_auth/components/img_color_static_strings.dart';
 import 'package:flutter_auth/components/text_style_decoration.dart';
+
+import 'components/img_color_static_strings.dart';
 
 void main() => runApp(MyApp());
 
