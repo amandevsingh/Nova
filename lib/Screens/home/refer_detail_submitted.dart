@@ -15,9 +15,23 @@ class ReferDetailSubmitted extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Image.asset(ImgName.unionAbove, fit: BoxFit.cover),
+                   Row(
+                                                children: [
+                                                  Image.asset(
+                                                      ImgName.unionAbove,
+                                                      height: 75.0,
+                                                      width: 50.0,
+                                                      fit: BoxFit.fill),
+                                                  Spacer(),
+                                                  Image.asset(
+                                                      ImgName.unionAboveB,
+                                                      height: 75.0,
+                                                      width: 60.0,
+                                                      fit: BoxFit.fill),
+                                                ],
+                                              ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
+                    padding: const EdgeInsets.only(top: 10.0, right: 15.0),
                     child: Row(
                       children: [
                         IconButton(
@@ -29,12 +43,8 @@ class ReferDetailSubmitted extends StatelessWidget {
                         ),
                         CustomText(
                           txtTitle: "Back",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                              fontWeight: FontWeight.w400, color: Colors.white),
                         ),
                         Spacer(),
                       ],

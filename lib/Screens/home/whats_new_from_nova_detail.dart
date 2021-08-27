@@ -4,7 +4,7 @@ import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class WhatsNewNovaDetail extends StatefulWidget {
- 
+  WhatsNewNovaDetail({Key key}) : super(key: key);
 
   @override
   _WhatsNewNovaDetailState createState() => _WhatsNewNovaDetailState();
@@ -20,9 +20,17 @@ class _WhatsNewNovaDetailState extends State<WhatsNewNovaDetail> {
             //union...
             Image.asset(ImgName.uni, fit: BoxFit.cover),
             //union design...
-            Image.asset(ImgName.unionAbove, fit: BoxFit.cover),
+            Row(
+              children: [
+                Image.asset(ImgName.unionAbove,
+                    height: 75.0, width: 50.0, fit: BoxFit.fill),
+                Spacer(),
+                Image.asset(ImgName.unionAboveB,
+                    height: 75.0, width: 60.0, fit: BoxFit.fill),
+              ],
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(top: 10.0, right: 15.0),
               child: Row(
                 children: [
                   //back button...
@@ -36,7 +44,7 @@ class _WhatsNewNovaDetailState extends State<WhatsNewNovaDetail> {
                   //back label...
                   CustomText(
                     txtTitle: "Back",
-                    style: Theme.of(context).textTheme.headline1?.copyWith(
+                    style: Theme.of(context).textTheme.headline1.copyWith(
                         fontWeight: FontWeight.w400, color: Colors.white),
                   ),
                 ],
@@ -74,7 +82,7 @@ class _WhatsNewNovaDetailState extends State<WhatsNewNovaDetail> {
                           style: Theme.of(context)
                               .textTheme
                               .caption
-                              ?.copyWith(color: Color(0xFF8D8D8D)),
+                              .copyWith(color: Color(0xFF8D8D8D)),
                         ),
                       ),
                       Padding(

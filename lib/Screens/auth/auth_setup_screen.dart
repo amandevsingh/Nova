@@ -7,7 +7,7 @@ import 'login.dart';
 
 class AuthSetupScreen extends StatefulWidget {
   final AuthScreenType authScreenType;
-  AuthSetupScreen({Key? key, required this.authScreenType}) : super(key: key);
+  AuthSetupScreen({Key key, @required this.authScreenType}) : super(key: key);
 
   @override
   _AuthSetupScreenState createState() => _AuthSetupScreenState();
@@ -15,10 +15,11 @@ class AuthSetupScreen extends StatefulWidget {
 
 class _AuthSetupScreenState extends State<AuthSetupScreen> {
   AuthScreenType authScreenType = AuthScreenType.Login;
-  Size? size;
+  Size size;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
 
     authScreenType = widget.authScreenType;
@@ -28,7 +29,6 @@ class _AuthSetupScreenState extends State<AuthSetupScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },

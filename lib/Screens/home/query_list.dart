@@ -1,109 +1,119 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Models/query_model.dart';
+import 'package:flutter_auth/Models/QueryListModel.dart';
+import 'package:flutter_auth/api/api.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 
 class QueryList extends StatefulWidget {
-
+  QueryList({Key key}) : super(key: key);
 
   @override
   _QueryListState createState() => _QueryListState();
 }
 
 class _QueryListState extends State<QueryList> {
-  List<QueryModel> queryModelList = [
-    QueryModel(
-        name: "Amrisha Kaur , 25 years, Female",
-        date: "15 feb 2021",
-        title: "Patient Status Request",
-        description:
-            "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generatorReference site about Lorem",
-        status: "Resolved",
-        isExpand: false,
-        resoultionDate: "16 feb 2021",
-        resolutionDescription:
-            "patient has been advised IVF and We are waiting patient consent."),
-    QueryModel(
-        name: "Amrisha Kaur , 25 years, Female",
-        date: "15 feb 2021",
-        title: "Patient Status Request",
-        description:
-            "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generatorReference site about Lorem",
-        status: "Resolved",
-        isExpand: false,
-        resoultionDate: "16 feb 2021",
-        resolutionDescription:
-            "patient has been advised IVF and We are waiting patient consent."),
-    QueryModel(
-        name: "Amrisha Kaur , 25 years, Female",
-        date: "15 feb 2021",
-        title: "Patient Status Request",
-        description:
-            "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generatorReference site about Lorem",
-        status: "Resolved",
-        isExpand: false,
-        resoultionDate: "16 feb 2021",
-        resolutionDescription:
-            "patient has been advised IVF and We are waiting patient consent.")
-  ];
+  QueryListModel queryListModel = QueryListModel();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFF7F7F8),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            //union...
-            Image.asset(ImgName.uni, fit: BoxFit.cover),
-            //union design...
-            Image.asset(ImgName.unionAbove, fit: BoxFit.cover),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Row(
-                children: [
-                  //drawer...
-                  IconButton(
-                      icon: Image.asset(
-                        ImgName.drawer,
-                        height: 14.0,
-                        width: 16.0,
+    return GraphQLProvider(
+        child: Scaffold(
+          backgroundColor: Color(0xFFF7F7F8),
+          body: SafeArea(
+            child: Stack(
+              children: [
+                //union...
+                Image.asset(ImgName.uni, fit: BoxFit.cover),
+                //union design...
+                Row(
+                  children: [
+                    Image.asset(ImgName.unionAbove,
+                        height: 75.0, width: 50.0, fit: BoxFit.fill),
+                    Spacer(),
+                    Image.asset(ImgName.unionAboveB,
+                        height: 75.0, width: 60.0, fit: BoxFit.fill),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, right: 15.0),
+                  child: Row(
+                    children: [
+                      //drawer...
+                      IconButton(
+                        icon: Image.asset(
+                          ImgName.drawer,
+                          height: 14.0,
+                          width: 16.0,
+                        ),
+                        onPressed: () {},
                       ),
-                      onPressed: () {}),
-                  //notification label...
-                  CustomText(
-                    txtTitle: "All Query",
-                    style: Theme.of(context).textTheme.headline1?.copyWith(
-                        fontWeight: FontWeight.w500, color: Colors.white),
+
+                      //notification label...
+                      CustomText(
+                        txtTitle: "All Query",
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                            fontWeight: FontWeight.w500, color: Colors.white),
+                      ),
+                      Spacer(),
+                      CustomText(
+                        txtTitle: "Filter",
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                            fontWeight: FontWeight.w500, color: Colors.white),
+                      ),
+                      IconButton(
+                        icon: Image.asset(
+                          ImgName.filter,
+                          height: 18.0,
+                          width: 27.0,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
-                  Spacer(),
-                  CustomText(
-                    txtTitle: "Filter",
-                    style: Theme.of(context).textTheme.headline1?.copyWith(
-                        fontWeight: FontWeight.w500, color: Colors.white),
-                  ),
-                  IconButton(
-                    icon: Image.asset(
-                      ImgName.filter,
-                      height: 14.0,
-                      width: 16.0,
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+                ),
+                //query list...
+                Query(
+                    options: QueryOptions(
+                        document: gql(getDoctorQuery),
+                        pollInterval: Duration(minutes: 5)),
+                    builder: (QueryResult result,
+                        {VoidCallback refetch, FetchMore fetchMore}) {
+                      if (result.data != null) {
+                        if (queryListModel?.queryNotesUserQueries == null)
+                          queryListModel = QueryListModel.fromJson(result.data);
+                      }
+
+                      return Center(
+                          child: result.hasException
+                              ? Text("")
+                              : result.isLoading
+                                  ? CircularProgressIndicator()
+                                  : ListView.builder(
+                                      padding: EdgeInsets.only(
+                                          left: 15.0, right: 15, top: 70.0),
+                                      itemCount: queryListModel
+                                          ?.queryNotesUserQueries?.length,
+                                      itemBuilder: (context, i) => queryCard(
+                                          queryListModel
+                                              ?.queryNotesUserQueries[i])));
+                    }),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios,
+                      color: Colors.transparent, size: 22.0),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
-            //query list...
-            ListView.builder(
-                padding: EdgeInsets.only(left: 15.0, right: 15, top: 70.0),
-                itemCount: queryModelList.length,
-                itemBuilder: (context, i) => queryCard(queryModelList[i])),
-          ],
+          ),
         ),
-      ),
-    );
+        client: client);
   }
 
-  Widget queryCard(QueryModel queryModel) {
+  Widget queryCard(QueryNotesUserQueries queryModel) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30.0),
       child: Container(
@@ -128,14 +138,24 @@ class _QueryListState extends State<QueryList> {
               ),
               Row(
                 children: [
+                  Visibility(
+                      visible: queryModel?.referral?.name != null,
+                      child: CustomText(
+                        txtTitle: "${queryModel?.referral?.name}, ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: Colors.black),
+                      )),
                   CustomText(
-                    txtTitle: queryModel.name,
+                    txtTitle:
+                        "${queryModel?.referral?.age}yrs, ${queryModel?.referral?.gender}",
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
-                        ?.copyWith(color: Colors.black),
+                        .caption
+                        .copyWith(color: Colors.black),
                   ),
-                  Spacer(),
+                  Visibility(visible: true, child: Spacer()),
                   IconButton(
                       icon: Icon(
                         queryModel.isExpand
@@ -153,45 +173,47 @@ class _QueryListState extends State<QueryList> {
               Row(
                 children: [
                   CustomText(
-                    txtTitle: queryModel.date,
+                    txtTitle: isTest(queryModel?.referral?.referredDate ?? ""),
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        ?.copyWith(color: Colors.black),
+                        .copyWith(color: Colors.black),
                   ),
                   Spacer(),
                   CustomText(
-                    txtTitle: "Status: ${queryModel.status}",
+                    txtTitle: "Status: ${queryModel.status ?? ""}",
                     style: Theme.of(context)
                         .textTheme
                         .caption
-                        ?.copyWith(color: Colors.green),
+                        .copyWith(color: Colors.green),
                   )
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: CustomText(
-                  txtTitle: queryModel.title,
+                  txtTitle: queryModel.title ?? "",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      ?.copyWith(color: Colors.black),
+                      .copyWith(color: Colors.black),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: CustomText(
-                  txtTitle: queryModel.description,
+                  txtTitle: queryModel.userQueryNotes.length > 0
+                      ? queryModel.userQueryNotes[0].remarks ?? ""
+                      : "",
                   textOverflow: TextOverflow.ellipsis,
                   maxLine: 3,
                   style: Theme.of(context)
                       .textTheme
                       .caption
-                      ?.copyWith(color: Color(0xFF74787A)),
+                      .copyWith(color: Color(0xFF74787A)),
                 ),
               ),
-              queryModel.isExpand
+              queryModel.isExpand && queryModel.userQueryNotes.length > 1
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: CustomText(
@@ -200,8 +222,9 @@ class _QueryListState extends State<QueryList> {
                       ),
                     )
                   : Container(),
-              queryModel.isExpand
+              queryModel.isExpand && queryModel.userQueryNotes.length > 1
                   ? Container(
+                      width: double.infinity,
                       decoration: BoxDecoration(
                           color: Color(0xFFF2E7EC),
                           borderRadius:
@@ -219,23 +242,26 @@ class _QueryListState extends State<QueryList> {
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: CustomText(
-                                txtTitle: queryModel.resoultionDate,
+                                txtTitle: isTest(
+                                    queryModel?.referral?.referredDate ?? ""),
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    ?.copyWith(color: Colors.black),
+                                    .copyWith(color: Colors.black),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: CustomText(
-                                txtTitle: queryModel.resolutionDescription,
+                                txtTitle: queryModel.userQueryNotes.length > 1
+                                    ? queryModel.userQueryNotes[1].remarks ?? ""
+                                    : "",
                                 textOverflow: TextOverflow.ellipsis,
                                 maxLine: 2,
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    ?.copyWith(color: Color(0xFF74787A)),
+                                    .copyWith(color: Color(0xFF74787A)),
                               ),
                             ),
                           ],
@@ -248,5 +274,17 @@ class _QueryListState extends State<QueryList> {
         ),
       ),
     );
+  }
+
+  String isTest(String value) {
+    if (value.isNotEmpty) {
+      var parts = value.split('T');
+      var prefix = parts[0].trim();
+      var inputDate = DateFormat('yyyy-MM-dd').parse(prefix);
+      var outputFormat = DateFormat('dd-MMM-yyyy');
+      return outputFormat.format(inputDate);
+    } else {
+      return "                    ";
+    }
   }
 }

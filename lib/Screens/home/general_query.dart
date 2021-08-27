@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_auth/Screens/home/perscription_requested.dart';
+import 'package:flutter_auth/Screens/home/refer_detail_screen.dart';
+import 'package:flutter_auth/api/api.dart';
+import 'package:flutter_auth/common/Constants.dart';
 import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_dropdown.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../constants.dart';
 
 class GeneralQueryScreen extends StatefulWidget {
+  GeneralQueryScreen({Key key}) : super(key: key);
+
   @override
   _GeneralQueryScreenState createState() => _GeneralQueryScreenState();
 }
@@ -15,7 +26,7 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
   FocusNode _detailNode = FocusNode();
   TextEditingController _optionController = TextEditingController();
   TextEditingController _detailController = TextEditingController();
-
+  bool _isLoading = false;
   @override
   void dispose() {
     _optionNode.dispose();
@@ -31,7 +42,6 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
       statusBarBrightness: Brightness.light,
     ));
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
 
@@ -46,52 +56,63 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      height: 265.0,
-                      width: double.infinity,
-                      child: Image.asset(ImgName.union, fit: BoxFit.cover),
-                    ),
-                    Image.asset(
-                      ImgName.unionAbove,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
-                      child: Row(
+                Hero(
+                  tag: "query",
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: 265.0,
+                        width: double.infinity,
+                        child: Image.asset(ImgName.union, fit: BoxFit.cover),
+                      ),
+                      Row(
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.arrow_back_ios,
-                                color: Colors.white, size: 22.0),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          CustomText(
-                            txtTitle: "Back",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white),
-                          ),
+                          Image.asset(ImgName.unionAbove,
+                              height: 75.0, width: 50.0, fit: BoxFit.fill),
                           Spacer(),
-                          Image.asset(
-                            ImgName.share,
-                            height: 20.0,
-                            width: 18.0,
-                          ),
+                          Image.asset(ImgName.unionAboveB,
+                              height: 75.0, width: 60.0, fit: BoxFit.fill),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 100.0),
-                      child: Image.asset(
-                        ImgName.query,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, right: 15.0),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.arrow_back_ios,
+                                  color: Colors.white, size: 22.0),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            CustomText(
+                              txtTitle: "Back",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline1
+                                  .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
+                            ),
+                            Spacer(),
+                            Visibility(
+                                visible: false,
+                                child: Image.asset(
+                                  ImgName.share,
+                                  height: 20.0,
+                                  width: 18.0,
+                                )),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 100.0),
+                        child: Image.asset(
+                          ImgName.query,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 //write your query label...
                 Padding(
@@ -123,7 +144,7 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
-                              ?.copyWith(color: Colors.black),
+                              .copyWith(color: Colors.black),
                         ),
                         selectOptionField(),
                         Padding(
@@ -134,7 +155,7 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
-                                ?.copyWith(color: Colors.black),
+                                .copyWith(color: Colors.black),
                           ),
                         ),
                         detailField(),
@@ -160,28 +181,38 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
           SizedBox(
             height: 45.0,
             child: TextFormField(
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(color: custThemeColor),
+              readOnly: true,
               focusNode: _optionNode,
               controller: _optionController,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
               onFieldSubmitted: (val) {
                 FocusScope.of(context).requestFocus(FocusNode());
               },
               decoration: custInputDecoration(
-                  context: context,
-                  hintText: "Unable to view details of a patient"),
+                hintText: "Unable to view my patients list",
+                context: context,
+              ),
             ),
           ),
           CustomDropDown(
-              height: 200.0,
+              currentText: _optionController.text,
+              height: 300.0,
               width: double.infinity,
-              callback: (value) {},
+              callback: (value) {
+                setState(() {
+                  _optionController.text = value;
+                });
+              },
               items: [
-                "1",
-                "2",
-                "3",
-                "4",
-              ].map((e) => CustomDropDownItems(e, e)).toList()),
+                "Unable to view my patients list",
+                "Need details of a particular patient",
+                "Need status of referred patient",
+                "Admin related query",
+                "Others",
+              ].map((e) => CustomDropDownItems(e, e, "")).toList()),
         ],
       ),
     );
@@ -191,6 +222,10 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       child: TextFormField(
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2
+            .copyWith(color: custThemeColor),
         cursorColor: custThemeColor,
         cursorHeight: 22.0,
         focusNode: _detailNode,
@@ -202,15 +237,83 @@ class _GeneralQueryScreenState extends State<GeneralQueryScreen> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         decoration:
-            custInputDecoration(hintText: "Write here...", context: context),
+            custInputDecoration(context: context, hintText: "Write here..."),
       ),
     );
   }
 
   Widget buildSubmitButton() {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0),
-        child: commonButton(
-            context: context, btnLabel: "Submit", onPressed: () {}));
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child: _isLoading
+          ? CircularProgressIndicator(
+              color: custThemeColor,
+            )
+          : Container(
+              height: 45,
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      custThemeColor,
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (_optionController.text.isEmpty) {
+                      Constants.showFlushbarToast(
+                          "Please select option.", context, 1);
+                    } else {
+                      // Loader.show(context,
+                      //     progressIndicator: CircularProgressIndicator(),
+                      //     themeData: Theme.of(context)
+                      //         .copyWith(accentColor: Color(0xff90244c)));
+                      if (mounted)
+                        setState(() {
+                          _isLoading = true;
+                        });
+                      var prefs = await SharedPreferences.getInstance();
+
+                      var result = await clientSend.query(QueryOptions(
+                        document: gql(saveGeneralQuery),
+                        variables: {
+                          "object": {
+                            "title": _optionController.text,
+                            "query_type": "self",
+                            "user_query_notes": {
+                              "data": {"remarks": _detailController.text}
+                            }
+                          }
+                        },
+                      ));
+                      print(result);
+                      if (result.hasException) {
+                        Constants.showFlushbarToast(
+                            "Internal Server Error", context, 0);
+                        if (mounted)
+                          setState(() {
+                            _isLoading = false;
+                          });
+                      } else {
+                        if (mounted)
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (ctx) => ReferDetailScreen(),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: CustomText(
+                    txtTitle: "Submit",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(color: Colors.white),
+                  )),
+            ),
+    );
   }
 }

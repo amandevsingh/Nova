@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
-class ThankYou extends StatelessWidget {
-  final bool isCongo;
-  const ThankYou({this.isCongo = false});
-
+// ignore: must_be_immutable
+class ThankYouPage extends StatelessWidget {
+  bool isCongo = false;
+  ThankYouPage({Key key, this.isCongo}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +27,9 @@ class ThankYou extends StatelessWidget {
                     height: 18.0,
                     color: custThemeColor,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: CustomText(
-                        txtTitle: "Back",
-                        style: Theme.of(context).textTheme.headline1),
-                  )
+                  CustomText(
+                      txtTitle: "Back",
+                      style: Theme.of(context).textTheme.headline1),
                 ],
               ),
             ),
@@ -81,12 +77,25 @@ class ThankYou extends StatelessWidget {
 
   Widget buildChangeButton(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-        child: commonButton(
-            context: context,
-            btnLabel: isCongo
-                ? "Go To dashboard".toUpperCase()
-                : "Close".toUpperCase(),
-            onPressed: () {}));
+      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+      child: Container(
+        height: 45,
+        width: double.infinity,
+        child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                custThemeColor,
+              ),
+            ),
+            onPressed: () {},
+            child: CustomText(
+              txtTitle: isCongo ? "Go To dashboard" : "Close".toUpperCase(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(color: Colors.white),
+            )),
+      ),
+    );
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
 class PerscriptionRequested extends StatefulWidget {
+  String name;
+  PerscriptionRequested({Key key, this.name}) : super(key: key);
+
   @override
   _PerscriptionRequestedState createState() => _PerscriptionRequestedState();
 }
@@ -19,9 +21,23 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
           Stack(
             children: [
               //union design...
-              Image.asset(ImgName.unionAbove, fit: BoxFit.cover),
+              Row(
+                                                children: [
+                                                  Image.asset(
+                                                      ImgName.unionAbove,
+                                                      height: 75.0,
+                                                      width: 50.0,
+                                                      fit: BoxFit.fill),
+                                                  Spacer(),
+                                                  Image.asset(
+                                                      ImgName.unionAboveB,
+                                                      height: 75.0,
+                                                      width: 60.0,
+                                                      fit: BoxFit.fill),
+                                                ],
+                                              ),
               Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, right: 15.0),
                 child: Row(
                   children: [
                     //back button...
@@ -35,7 +51,7 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
                     //back label...
                     CustomText(
                       txtTitle: "Back",
-                      style: Theme.of(context).textTheme.headline1?.copyWith(
+                      style: Theme.of(context).textTheme.headline1.copyWith(
                           fontWeight: FontWeight.w400, color: Colors.white),
                     ),
                   ],
@@ -81,8 +97,9 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
                   padding: const EdgeInsets.all(20.0),
                   child: CustomText(
                     align: TextAlign.center,
-                    txtTitle:
-                        "Your Request for Prescription of 'Shruti Khanna' has been submitted",
+                    txtTitle: "Your Request for Prescription of " +
+                        widget.name +
+                        " has been submitted",
                     style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
@@ -91,7 +108,7 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
-                      ?.copyWith(fontWeight: FontWeight.w300),
+                      .copyWith(fontWeight: FontWeight.w300),
                 ),
                 Spacer(),
                 closeButton()
@@ -105,8 +122,27 @@ class _PerscriptionRequestedState extends State<PerscriptionRequested> {
 
   Widget closeButton() {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
-        child: commonButton(
-            context: context, btnLabel: "Close", onPressed: () {}));
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Container(
+        height: 40,
+        width: 215.0,
+        child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                custThemeColor,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: CustomText(
+              txtTitle: "Close",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white),
+            )),
+      ),
+    );
   }
 }

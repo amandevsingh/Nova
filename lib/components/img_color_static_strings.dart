@@ -7,6 +7,7 @@ class ImgName {
   static const String openEye = imgURL + "open_eye.png";
   static const String union = imgURL + "union.png";
   static const String unionAbove = imgURL + "union_above.png";
+  static const String unionAboveB = imgURL + "union_aboveb.png";
   static const String drawer = imgURL + "drawer.png";
   static const String metroFlow = imgURL + "metro_flow.png";
   static const String msg = imgURL + "msg.png";

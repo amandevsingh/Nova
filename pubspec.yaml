@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -24,13 +24,33 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   flutter_svg: ^0.22.0
-  cached_network_image: ^3.1.0
-  photo_view: ^0.12.0
-  badges: ^2.0.1
-  dotted_line: ^3.0.0
-  sticky_headers: ^0.2.0
-  carousel_slider: ^4.0.0
-  page_view_indicators: ^2.0.0
+  firebase_core: ^1.0.2
+  device_info: '>=0.4.1+4 <2.0.0'
+  cached_network_image: ^3.0.0
+  photo_view: ^0.10.3
+  badges: ^1.2.0
+  flutter_cognito_plugin: ^2.2.0
+  flutter_cache_manager: ^3.1.2
+  connectivity_plus_linux: ^1.0.3
+  dbus: ^0.5.1
+  xml: ^5.0.0
+  graphql_flutter: ^5.0.0
+  connectivity_plus: ^1.0.2
+  rxdart: ^0.26.0
+  shared_preferences: ^2.0.6
+  path_provider: ^2.0.0
+  dotted_line: ^2.0.2
+  sticky_headers: "^0.1.8"
+  intl: ^0.17.0
+  flushbar: ^1.10.4
+  carousel_slider: ^3.0.0
+  page_view_indicators: ^1.4.1
+  fluttertoast: ^3.1.0
+  webview_flutter: ^2.0.8
+  flutter_local_notifications: ^5.0.0
+  firebase_crashlytics: ^2.1.1
+  firebase_messaging: ^10.0.1
+  flutter_overlay_loader: ^0.1.1
 
 dev_dependencies:
   flutter_test:

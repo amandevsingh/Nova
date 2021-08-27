@@ -49,7 +49,7 @@ class CustImage extends StatelessWidget {
                   File(imageFile),
                   height: height,
                   width: width,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 )
               : imgURL.isEmpty
                   ? Image.asset(
@@ -70,9 +70,9 @@ class CustImage extends StatelessWidget {
     return CachedNetworkImage(
       fadeInDuration: const Duration(milliseconds: 10),
       fadeOutDuration: const Duration(milliseconds: 10),
-      fit: BoxFit.cover,
+      fit: BoxFit.scaleDown,
       imageUrl: imgURL,
-      placeholder: (context, url) => Spinner(progressColor: Colors.black),
+      placeholder: (context, url) => Spinner(progressColor: Color(0xff90244c)),
       errorWidget: (ctx, url, obj) => Image.asset(errorImage),
     );
   }
@@ -89,7 +89,8 @@ class CustImage extends StatelessWidget {
           maxScale: PhotoViewComputedScale.covered * 2,
         )
       ],
-      loadingBuilder: (context, url) => Spinner(progressColor: Colors.black),
+      loadingBuilder: (context, url) =>
+          Spinner(progressColor: Color(0xff90244c)),
       enableRotation: false,
     );
   }

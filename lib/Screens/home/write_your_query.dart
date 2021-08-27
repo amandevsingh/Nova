@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Models/PatientList.dart';
+import 'package:flutter_auth/Screens/home/refer_detail_screen.dart';
+import 'package:flutter_auth/api/api.dart';
+import 'package:flutter_auth/common/Constants.dart';
 import 'package:flutter_auth/components/common.dart';
 import 'package:flutter_auth/components/custom_dropdown.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../constants.dart';
 
 class WriteYourQuery extends StatefulWidget {
+  ReferralPatientReferrals patientDetailModel;
+
+  WriteYourQuery({Key key, this.patientDetailModel}) : super(key: key);
+
   @override
   _WriteYourQueryState createState() => _WriteYourQueryState();
 }
@@ -12,8 +25,9 @@ class WriteYourQuery extends StatefulWidget {
 class _WriteYourQueryState extends State<WriteYourQuery> {
   FocusNode _nameNode = FocusNode();
   FocusNode _numberNode = FocusNode();
-  FocusNode _optionNode = FocusNode();
+  // FocusNode _optionNode = FocusNode();
   FocusNode _detailNode = FocusNode();
+   bool _isLoading = false;
   TextEditingController _nameController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _optionController = TextEditingController();
@@ -23,13 +37,20 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
   void dispose() {
     _nameNode.dispose();
     _numberNode.dispose();
-    _optionNode.dispose();
     _detailNode.dispose();
     _nameController.dispose();
     _numberController.dispose();
     _optionController.dispose();
     _detailController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _nameController.text = widget.patientDetailModel.name;
+    _numberController.text = widget.patientDetailModel.phone;
   }
 
   @override
@@ -57,11 +78,17 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
                       width: double.infinity,
                       child: Image.asset(ImgName.union, fit: BoxFit.cover),
                     ),
-                    Image.asset(
-                      ImgName.unionAbove,
+                    Row(
+                      children: [
+                        Image.asset(ImgName.unionAbove,
+                            height: 75.0, width: 50.0, fit: BoxFit.fill),
+                        Spacer(),
+                        Image.asset(ImgName.unionAboveB,
+                            height: 75.0, width: 60.0, fit: BoxFit.fill),
+                      ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
+                      padding: const EdgeInsets.only(top: 10.0, right: 15.0),
                       child: Row(
                         children: [
                           IconButton(
@@ -76,16 +103,18 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1
-                                ?.copyWith(
+                                .copyWith(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.white),
                           ),
                           Spacer(),
-                          Image.asset(
-                            ImgName.share,
-                            height: 20.0,
-                            width: 18.0,
-                          ),
+                          Visibility(
+                              visible: false,
+                              child: Image.asset(
+                                ImgName.share,
+                                height: 20.0,
+                                width: 18.0,
+                              )),
                         ],
                       ),
                     ),
@@ -127,7 +156,7 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
-                              ?.copyWith(color: Colors.black),
+                              .copyWith(color: Colors.black),
                         ),
                         nameField(),
                         CustomText(
@@ -135,7 +164,7 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
-                              ?.copyWith(color: Colors.black),
+                              .copyWith(color: Colors.black),
                         ),
                         numberField(),
                         CustomText(
@@ -143,7 +172,7 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
-                              ?.copyWith(color: Colors.black),
+                              .copyWith(color: Colors.black),
                         ),
                         selectOptionField(),
                         Padding(
@@ -154,7 +183,7 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
-                                ?.copyWith(color: Colors.black),
+                                .copyWith(color: Colors.black),
                           ),
                         ),
                         detailField(),
@@ -180,29 +209,34 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
           SizedBox(
             height: 45.0,
             child: TextFormField(
-              focusNode: _optionNode,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(color: custThemeColor),
+              readOnly: true,
+              keyboardType: TextInputType.multiline,
               controller: _optionController,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              onFieldSubmitted: (val) {
-                FocusScope.of(context).requestFocus(FocusNode());
-              },
               decoration: custInputDecoration(
-                hintText: "Unable to view details of a patient",
+                hintText: "Unable to view specific detail of the patient",
                 context: context,
               ),
             ),
           ),
           CustomDropDown(
-              height: 200.0,
+              height: 300.0,
+              currentText: _optionController.text,
               width: double.infinity,
-              callback: (value) {},
+              callback: (value) {
+                setState(() {
+                  _optionController.text = value;
+                });
+              },
               items: [
-                "1",
-                "2",
-                "3",
-                "4",
-              ].map((e) => CustomDropDownItems(e, e)).toList()),
+                "Unable to view specific detail of the patient",
+                "Connect to the consulting doctor",
+                "Need more details about the treatment",
+                "Others",
+              ].map((e) => CustomDropDownItems(e, e, "")).toList()),
         ],
       ),
     );
@@ -214,6 +248,11 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
       child: SizedBox(
         height: 45.0,
         child: TextFormField(
+          style: Theme.of(context)
+              .textTheme
+              .bodyText2
+              .copyWith(color: custThemeColor),
+          readOnly: true,
           cursorColor: custThemeColor,
           cursorHeight: 22.0,
           focusNode: _nameNode,
@@ -243,15 +282,17 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
       child: SizedBox(
         height: 45.0,
         child: TextFormField(
+          style: Theme.of(context)
+              .textTheme
+              .bodyText2
+              .copyWith(color: custThemeColor),
+          readOnly: true,
           cursorColor: custThemeColor,
           cursorHeight: 22.0,
           focusNode: _numberNode,
           controller: _numberController,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
-          onFieldSubmitted: (val) {
-            FocusScope.of(context).requestFocus(_optionNode);
-          },
           decoration: custInputDecoration(
               hintText: "9023636589",
               context: context,
@@ -270,6 +311,10 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       child: TextFormField(
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2
+            .copyWith(color: custThemeColor),
         cursorColor: custThemeColor,
         cursorHeight: 22.0,
         focusNode: _detailNode,
@@ -288,8 +333,75 @@ class _WriteYourQueryState extends State<WriteYourQuery> {
 
   Widget buildSubmitButton() {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0),
-        child: commonButton(
-            context: context, btnLabel: "Submit", onPressed: () {}));
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child:_isLoading?CircularProgressIndicator(color: custThemeColor,): Container(
+        height: 45,
+        width: double.infinity,
+        child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                custThemeColor,
+              ),
+            ),
+            onPressed: () async {
+              if (_optionController.text.isEmpty) {
+                Constants.showFlushbarToast(
+                    "Please select option.", context, 1);
+              } else {
+                // Loader.show(context,
+                //     progressIndicator: CircularProgressIndicator(),
+                //     themeData: Theme.of(context)
+                //         .copyWith(accentColor: Color(0xff90244c)));
+                if (mounted)
+                  setState(() {
+                    _isLoading = true;
+                  });
+                var prefs = await SharedPreferences.getInstance();
+                var result = await clientSend.query(QueryOptions(
+                  document: gql(savePatientQuery),
+                  variables: {
+                    "object": {
+                      "referral_id": widget.patientDetailModel.id,
+                      //  "patient_name": widget.patientDetailModel.name,
+                      //  "patient_phone": widget.patientDetailModel.phone,
+                      "title": _optionController.text,
+                      "query_type": "referral",
+                      "user_query_notes": {
+                        "data": {
+                          "remarks": _detailController.text,
+                        }
+                      }
+                    }
+                  },
+                ));
+                if (result.hasException) {
+                  Constants.showFlushbarToast(
+                      "Internal Server Error", context, 0);
+                  if (mounted)
+                    setState(() {
+                      _isLoading = false;
+                    });
+                } else {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (ctx) => ReferDetailScreen(),
+                    ),
+                  );
+                  if (mounted)
+                    setState(() {
+                      _isLoading = false;
+                    });
+                }
+              }
+            },
+            child: CustomText(
+              txtTitle: "Submit",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(color: Colors.white),
+            )),
+      ),
+    );
   }
 }

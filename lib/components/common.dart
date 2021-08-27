@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
 
-
 InputDecoration searchFieldInputDecoration(
-    {required String hintText, required BuildContext context}) {
+    {@required String hintText, @required BuildContext context}) {
   return InputDecoration(
       contentPadding: EdgeInsets.only(left: 20.0),
       filled: true,
@@ -20,7 +19,7 @@ InputDecoration searchFieldInputDecoration(
       hintStyle: Theme.of(context)
           .textTheme
           .caption
-          ?.copyWith(color: Colors.white.withOpacity(0.32)),
+          .copyWith(color: Colors.white.withOpacity(0.32)),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
         borderSide: BorderSide(
@@ -60,15 +59,22 @@ InputDecoration searchFieldInputDecoration(
 }
 
 InputDecoration custInputDecoration(
-    {required String hintText, required BuildContext context, Widget? suffix}) {
+    {@required String hintText,
+    @required BuildContext context,
+    String prefix,
+    Widget suffix}) {
   return InputDecoration(
       filled: true,
       fillColor: Colors.white,
       hintText: hintText,
+      isDense: true,
+      contentPadding: const EdgeInsets.all(10),
+      counterText: "",
+      prefixText: prefix,
       hintStyle: Theme.of(context)
           .textTheme
           .bodyText1
-          ?.copyWith(fontSize: 13.0, color: Color(0xFFAEADAD)),
+          .copyWith(fontSize: 13.0, color: Color(0xFFAEADAD)),
       suffixIcon: suffix,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -106,25 +112,4 @@ InputDecoration custInputDecoration(
           color: Color(0xFFBF8CA4),
         ),
       ));
-}
-
-Widget commonButton(
-    {required BuildContext context,
-    required String btnLabel,
-    required void Function() onPressed}) {
-  return Container(
-    height: 55,
-    width: double.infinity,
-    child: ElevatedButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
-          custThemeColor,
-        ),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        btnLabel,
-      ),
-    ),
-  );
 }

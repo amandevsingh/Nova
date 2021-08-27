@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
   final String txtTitle;
-  final TextStyle? style;
-  final TextAlign? align;
-  final int? maxLine;
-  final TextOverflow? textOverflow;
-  final void Function()? onPressed;
+  final TextStyle style;
+  final TextAlign align;
+  final int maxLine;
+  final TextOverflow textOverflow;
+  final void Function() onPressed;
 
   CustomText(
-      {this.txtTitle = "",
+      {this.txtTitle,
       this.style,
       this.align = TextAlign.start,
       this.maxLine,

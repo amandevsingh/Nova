@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_auth/Models/Notifications.dart';
+import 'package:flutter_auth/api/api.dart';
 import 'package:flutter_auth/components/custom_text.dart';
 import 'package:flutter_auth/components/img_color_static_strings.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class NotificationScreen extends StatefulWidget {
+  NotificationScreen({Key key}) : super(key: key);
+
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
 }
@@ -14,53 +19,88 @@ class _NotificationScreenState extends State<NotificationScreen> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarBrightness: Brightness.light,
     ));
-    return Scaffold(
-      backgroundColor: Color(0xFFF7F7F7),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            //union...
-            Image.asset(ImgName.uni, fit: BoxFit.cover),
-            //union design...
-            Image.asset(ImgName.unionAbove, fit: BoxFit.cover),
-            //nitification list...
-            ListView.builder(
-                padding: EdgeInsets.only(left: 15.0, right: 15, top: 70.0),
-                itemCount: 10,
-                itemBuilder: (context, i) => notificationCard()),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Row(
-                children: [
-                  //back button...
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_ios,
-                        color: Colors.white, size: 22.0),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+    return GraphQLProvider(
+        child: Scaffold(
+          backgroundColor: Color(0xFFF7F7F7),
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Image.asset(
+                  ImgName.uni,
+                ),
+                Row(
+                                                children: [
+                                                  Image.asset(
+                                                      ImgName.unionAbove,
+                                                      height: 75.0,
+                                                      width: 50.0,
+                                                      fit: BoxFit.fill),
+                                                  Spacer(),
+                                                  Image.asset(
+                                                      ImgName.unionAboveB,
+                                                      height: 75.0,
+                                                      width: 60.0,
+                                                      fit: BoxFit.fill),
+                                                ],
+                                              ),
+                Query(
+                    options: QueryOptions(
+                        document: gql(getNotificationQuery),
+                        pollInterval: Duration(minutes: 5)),
+                    builder: (QueryResult result,
+                        {VoidCallback refetch, FetchMore fetchMore}) {
+                      Notifications notifcationList;
+                      if (result.data != null) {
+                        notifcationList = Notifications.fromJson(result.data);
+                      }
+
+                      return Center(
+                        child: result.hasException
+                            ? Text("")
+                            : result.isLoading
+                                ? CircularProgressIndicator()
+                                : ListView.builder(
+                                    padding: EdgeInsets.only(
+                                        left: 15.0, right: 15, top: 70.0),
+                                    itemCount: notifcationList
+                                        ?.notificationList?.length,
+                                    itemBuilder: (context, i) =>
+                                        notificationCard(notifcationList
+                                            ?.notificationList[i])),
+                      );
+                    }),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, right: 15.0),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios,
+                            color: Colors.white, size: 22.0),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      CustomText(
+                        txtTitle: "Notification",
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                            fontWeight: FontWeight.w500, color: Colors.white),
+                      )
+                    ],
                   ),
-                  //notification label...
-                  CustomText(
-                    txtTitle: "Notification",
-                    style: Theme.of(context).textTheme.headline1?.copyWith(
-                        fontWeight: FontWeight.w500, color: Colors.white),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
-    );
+        client: client);
   }
 
-  Widget notificationCard() {
+  Widget notificationCard(NotificationList notificationList) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: Container(
         clipBehavior: Clip.antiAlias,
-        height: 83.0,
+        height: 100.0,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -84,16 +124,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 5.0),
                 child: CustomText(
-                  txtTitle: "15 May 2021",
+                  txtTitle: notificationList.date,
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      ?.copyWith(color: Color(0xFFC52068), fontSize: 12.0),
+                      .copyWith(color: Color(0xFFC52068), fontSize: 12.0),
                 ),
               ),
               CustomText(
-                txtTitle: "Patient Status Update: Abhisha Kaur",
+                txtTitle: notificationList.title,
                 style: Theme.of(context).textTheme.bodyText2,
+              ),
+              CustomText(
+                txtTitle: notificationList.body,
+                maxLine: 2,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontSize: 10.0),
               )
             ],
           ),
